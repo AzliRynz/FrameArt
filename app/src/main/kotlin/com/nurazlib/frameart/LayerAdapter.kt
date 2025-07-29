@@ -1,40 +1,80 @@
 package com.nurazlib.frameart
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-// Adapter untuk mengelola list layer di RecyclerView
-class LayerAdapter(private val drawingView: DrawingView) :
-    RecyclerView.Adapter<LayerAdapter.LayerViewHolder>() {
+class LayerAdapter(
+    private var layers: List<Layer>,
+    private val listener: OnLayerInteractionListener
+) : RecyclerView.Adapter<LayerAdapter.LayerViewHolder>() {
 
-    private val layers = mutableListOf<String>()
+    private var selectedPosition = 0
 
-    init {
-        layers.add("Layer 1")  // Tambahkan layer awal
+    // Interface untuk komunikasi dengan Activity
+    interface OnLayerInteractionListener {
+        fun onLayerSelected(position: Int)
+        fun onLayerVisibilityChanged(position: Int)
+        fun onLayerDeleted(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LayerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(android.R.layout.simple_list_item_1, parent, false)
+            .inflate(R.layout.layer_item, parent, false)
         return LayerViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: LayerViewHolder, position: Int) {
-        holder.layerName.text = layers[position]
-        // Logika untuk menampilkan dan mengatur setiap layer
+        val layer = layers[position]
+        holder.bind(layer, position)
     }
 
     override fun getItemCount(): Int = layers.size
 
-    fun addLayer() {
-        layers.add("Layer ${layers.size + 1}")
-        notifyDataSetChanged()
+    // Fungsi untuk memperbarui data di adapter
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateLayers(newLayers: List<Layer>, activeLayerIndex: Int) {
+        this.layers = newLayers
+        this.selectedPosition = activeLayerIndex
+        notifyDataSetChanged() // Untuk simplicity, kita pakai ini. Bisa diganti dengan DiffUtil.
     }
 
-    class LayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val layerName: TextView = itemView.findViewById(android.R.id.text1)
+    inner class LayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val layerName: TextView = itemView.findViewById(R.id.layer_name)
+        private val visibilityToggle: ImageView = itemView.findViewById(R.id.visibility_toggle)
+        private val deleteButton: ImageView = itemView.findViewById(R.id.delete_layer)
+
+        fun bind(layer: Layer, position: Int) {
+            layerName.text = layer.name
+
+            // Atur highlight untuk layer yang aktif
+            itemView.setBackgroundColor(
+                if (position == selectedPosition) {
+                    ContextCompat.getColor(itemView.context, R.color.selected_layer_background)
+                } else {
+                    ContextCompat.getColor(itemView.context, android.R.color.transparent)
+                }
+            )
+
+            // Atur ikon visibilitas
+            val visibilityIcon = if (layer.isVisible) R.drawable.ic_visibility_on else R.drawable.ic_visibility_off
+            visibilityToggle.setImageResource(visibilityIcon)
+
+            // Atur listener
+            itemView.setOnClickListener {
+                listener.onLayerSelected(position)
+            }
+            visibilityToggle.setOnClickListener {
+                listener.onLayerVisibilityChanged(position)
+            }
+            deleteButton.setOnClickListener {
+                listener.onLayerDeleted(position)
+            }
+        }
     }
 }
