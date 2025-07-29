@@ -2,5 +2,17 @@
     <string name="app_name">FrameArt</string>
     <string name="add_frame">Add Frame</string>
     <string name="add_layer">Add Layer</string>
+    <string name="clear_canvas">Clear Canvas</string>
+    <string name="change_color">Change Color</string>
+    <string name="change_stroke_width">Change Stroke Width</string>
+    <string name="eraser">Eraser</string>
+    <string name="toggle_visibility">Toggle Visibility</string>
+    <string name="delete_layer">Delete Layer</string>
+    <string name="set_stroke_width">Set Stroke Width</string>
+    <string name="clear_canvas_title">Clear Canvas</string>
+    <string name="clear_canvas_message">Are you sure you want to clear everything? This action cannot be undone.</string>
+    <string name="set_button">Set</string>
+    <string name="clear_button">Clear</string>
+    <string name="cancel_button">Cancel</string>
     <string name="layer">Layer</string>
 </resources>
