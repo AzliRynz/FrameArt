@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+
+    - name: Decode Keystore
+      run: |
+        mkdir -p $HOME/.android
+        echo "$KEYSTORE_BASE64" | base64 -d > $HOME/.android/debug.keystore
+
+    - name: Build Release APK
+      run: ./gradlew assembleRelease
+
+    - name: Sign APK
+      run: |
+        jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+          -keystore $HOME/.android/debug.keystore \
+          -storepass $KEYSTORE_PASSWORD \
+          -keypass $KEY_PASSWORD \
+          app/build/outputs/apk/release/app-release-unsigned.apk \
+          $KEY_ALIAS
+
+    - name: Zipalign APK
+      run: |
+        $ANDROID_HOME/build-tools/*/zipalign -v 4 \
+          app/build/outputs/apk/release/app-release-unsigned.apk \
+          app-release-signed.apk
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: signed-app
+        path: app-release-signed.apk
