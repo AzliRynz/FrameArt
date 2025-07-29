@@ -28,6 +28,7 @@ jobs:
       run: |
         mkdir -p $HOME/.android
         echo "$KEYSTORE_BASE64" | base64 -d > $HOME/.android/debug.keystore
+        chmod +x gradlew
 
     - name: Build Release APK
       run: ./gradlew assembleRelease
