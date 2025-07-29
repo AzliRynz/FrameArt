@@ -101,16 +101,16 @@ class MainActivity : AppCompatActivity(), LayerAdapter.OnLayerInteractionListene
     private fun showStrokeWidthDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_stroke_width, null)
         val slider: Slider = dialogView.findViewById(R.id.stroke_slider)
-        
         MaterialAlertDialogBuilder(this)
-            .setTitle("Set Stroke Width")
-            .setView(dialogView)
-            .setPositiveButton("Set") { _, _ ->
-                drawingView.setStrokeWidth(slider.value)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        .setTitle(R.string.set_stroke_width)
+        .setView(dialogView)
+        .setPositiveButton(R.string.set_button) { dialog, which ->
+            drawingView.setStrokeWidth(slider.value)
+        }
+        .setNegativeButton(R.string.cancel_button, null)
+        .show()
     }
+
     
     private fun showClearCanvasConfirmation() {
         MaterialAlertDialogBuilder(this)
