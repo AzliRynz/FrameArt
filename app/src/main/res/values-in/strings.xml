@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">FrameArt</string>
-    <string name="add_frame">Tambahkan Frame</string>
-    <string name="add_layer">Tambahkan Layer</string>
-    <string name="layer">Layer</string>
+    <string name="add_frame">Tambah Frame</string>
+    <string name="add_layer">Tambah Layar</string>
+    <string name="clear_canvas">Bersihkan Kanvas</string>
+    <string name="change_color">Ubah Warna</string>
+    <string name="change_stroke_width">Ubah Lebar Goresan</string>
+    <string name="eraser">Penghapus</string>
+    <string name="toggle_visibility">Toggle Visibilitas</string>
+    <string name="delete_layer">Hapus Layar</string>
+    <string name="set_stroke_width">Atur Lebar Goresan</string>
+    <string name="clear_canvas_title">Bersihkan Kanvas</string>
+    <string name="clear_canvas_message">Yakin ingin menghapus semuanya? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="set_button">Atur</string>
+    <string name="clear_button">Bersihkan</string>
+    <string name="cancel_button">Batal</string>
+    <string name="layer">Layar</string>
 </resources>
