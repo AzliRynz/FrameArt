@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Toolbar untuk alat menggambar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -22,7 +21,6 @@
             android:theme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Canvas untuk menggambar -->
     <com.nurazlib.frameart.DrawingView
         android:id="@+id/drawing_view"
         android:layout_width="0dp"
@@ -32,27 +30,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Tombol untuk menambah frame -->
     <Button
         android:id="@+id/add_frame_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_frame"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="8dp"/>
 
-    <!-- Tombol untuk menambah layer -->
     <Button
         android:id="@+id/add_layer_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_layer"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="8dp"/>
 
-    <!-- Tampilan Layer List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/layer_list"
         android:layout_width="0dp"
